@@ -1,7 +1,7 @@
 // src/pages/RedactionEditor.tsx
 import { useState, useRef, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeftIcon, ArrowDownTrayIcon, EyeIcon, EyeSlashIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon, ArrowDownTrayIcon, EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 
 interface DetectedRedaction {
   id: string;
@@ -35,6 +35,7 @@ const RedactionEditor = () => {
 
   useEffect(() => {
     loadDocument();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [documentId]);
 
   const loadDocument = () => {
@@ -372,9 +373,10 @@ Please contact [REDACTED - PERSON] at [REDACTED - EMAIL] for any questions regar
               <div className="flex space-x-3">
                 <button
                   onClick={addCustomRedaction}
-                  className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+                  className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2"
                 >
-                  Add Redaction
+                  <span className="text-lg">+</span>
+                  <span>Add Redaction</span>
                 </button>
                 <button
                   onClick={() => {
