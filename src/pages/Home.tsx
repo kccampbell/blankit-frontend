@@ -1,18 +1,37 @@
 // src/pages/Home.tsx
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../components/ui/Button';
+import { validateWorkEmail } from '../utils/validation';
 
 const Home = () => {
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [emailError, setEmailError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
-      setIsSubmitted(true);
-      // TODO: Send email to backend
-      console.log('Email submitted:', email);
+    setEmailError('');
+    
+    if (!email) {
+      setEmailError('Please enter your email');
+      return;
     }
+    
+    if (!validateWorkEmail(email)) {
+      setEmailError('Please use your work email address');
+      return;
+    }
+    
+    setIsSubmitted(true);
+    // TODO: Send email to backend
+    console.log('Email submitted:', email);
+    
+    // Redirect to trial page after 2 seconds
+    setTimeout(() => {
+      navigate('/trial');
+    }, 2000);
   };
 
   return (
@@ -45,14 +64,21 @@ const Home = () => {
             <h3 className="text-lg font-semibold mb-4">Try 3 Documents Free</h3>
             {!isSubmitted ? (
               <form onSubmit={handleSubmit} className="space-y-4">
-                <input
-                  type="email"
-                  placeholder="Enter your work email"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
+                <div>
+                  <input
+                    type="email"
+                    placeholder="Enter your work email"
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
+                      emailError ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                  {emailError && (
+                    <p className="mt-2 text-sm text-red-600">{emailError}</p>
+                  )}
+                </div>
                 <Button 
                   type="submit" 
                   size="lg" 
