@@ -114,10 +114,10 @@ const Trial = () => {
         {/* Left Sidebar */}
         <div className="w-64 bg-white border-r border-gray-200 p-4">
           <nav className="space-y-2">
-            <a href="#" className="flex items-center px-3 py-2 text-sm font-medium text-gray-900 bg-gray-100 rounded-md">
+            <button className="flex items-center px-3 py-2 text-sm font-medium text-gray-900 bg-gray-100 rounded-md w-full text-left">
               <DocumentIcon className="w-4 h-4 mr-3" />
               Documents
-            </a>
+            </button>
           </nav>
         </div>
 
