@@ -1,5 +1,6 @@
 // src/pages/Trial.tsx
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { DocumentIcon, ClockIcon, CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import FileUploadZone from '../components/ui/FileUploadZone';
 
@@ -14,6 +15,7 @@ interface Document {
 }
 
 const Trial = () => {
+  const navigate = useNavigate();
   const [documents, setDocuments] = useState<Document[]>([]);
   const [documentsRemaining, setDocumentsRemaining] = useState(3);
   const [selectedDoc, setSelectedDoc] = useState<Document | null>(null);
@@ -168,7 +170,13 @@ const Trial = () => {
                           </div>
                         </div>
                         {doc.status === 'ready' && (
-                          <button className="text-sm text-blue-600 hover:text-blue-800">
+                          <button 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(`/redaction-editor/${doc.id}`);
+                            }}
+                            className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+                          >
                             Review →
                           </button>
                         )}
@@ -205,7 +213,10 @@ const Trial = () => {
                 )}
                 
                 {selectedDoc.status === 'ready' && (
-                  <button className="w-full mt-4 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">
+                  <button 
+                    onClick={() => navigate(`/redaction-editor/${selectedDoc.id}`)}
+                    className="w-full mt-4 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+                  >
                     Open Redaction Editor
                   </button>
                 )}
